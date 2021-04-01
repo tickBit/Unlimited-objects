@@ -16,12 +16,10 @@ public class Unlimited {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	int imgX1;
-	int imgY1;
+	int imgX;
+	int imgY;
 
-
-	double r1 = 1;
-	double r2 = 250;
+	double r1 = 1.0;
 	double angle = 0;
 	
 	int counter = 0;
@@ -101,11 +99,11 @@ public class Unlimited {
 	        
 		public void paintComponent(Graphics g) {
 			    
-			imgX1 = (int)(Math.cos(angle) * r1 + 300 - img.getWidth() / 2);
-		    imgY1 = (int)(Math.sin(angle) * r1 + 300 - img.getHeight() / 2);
+			imgX = (int)(Math.cos(angle) * r1 + 300 - img.getWidth() / 2);
+		    imgY = (int)(Math.sin(angle) * r1 + 300 - img.getHeight() / 2);
 
 		    bufferGraphics.clearRect(0,0,600,600);
-		    drawArea[counter].getGraphics().drawImage(img, imgX1, imgY1, img.getWidth(), img.getHeight(), null);
+		    drawArea[counter].getGraphics().drawImage(img, imgX, imgY, img.getWidth(), img.getHeight(), null);
 
 		    bufferGraphics.drawImage(drawArea[counter],0,0,600,600,null);
 		    g.drawImage(offscreen,0,0,this); 
@@ -113,11 +111,9 @@ public class Unlimited {
 		    counter++;
 		    if (counter == 16) counter = 0;
 
-
 		    r1+=0.075;
-		    r2-=0.075;
 
-		    angle+=Math.PI / 180;
+		    angle+=Math.PI / 180.0;
 		}
 
 	}
