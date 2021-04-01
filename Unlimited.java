@@ -11,73 +11,73 @@ import java.awt.Image;
 
 public class Unlimited {
 
-	/**
-	 *  "Unlimited objects" in Java
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	int imgX;
-	int imgY;
-
-	double r1 = 1.0;
-	double angle = 0;
-	
-	int counter = 0;
-
-	Graphics bufferGraphics; 
-	Image offscreen;
-	Image drawArea[] = new Image[16];
-
-	BufferedImage img = null;
-	
-	JFrame frame;
-	
     /**
-	 * 
-	 */
-	public static void main(String[] args) {
+     *  "Unlimited objects" in Java
+     */
+    private static final long serialVersionUID = 1L;
+    
+    int imgX;
+    int imgY;
 
-		new Unlimited().go();
+    double r1 = 1.0;
+    double angle = 0;
+    
+    int counter = 0;
 
-	}
+    Graphics bufferGraphics; 
+    Image offscreen;
+    Image drawArea[] = new Image[16];
 
-	private void go() {
-			
-		DrawPanel drawPanel;
-	
-		frame = new JFrame("Unlimited objects");
+    BufferedImage img = null;
+    
+    JFrame frame;
+    
+    /**
+     * 
+     */
+    public static void main(String[] args) {
 
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        new Unlimited().go();
 
-		drawPanel = new DrawPanel();
-
-		frame.getContentPane().add(drawPanel);
-
-		frame.setResizable(false);
-		frame.setSize(600, 600);
-		frame.setLocationByPlatform(true);
-		frame.setVisible(true);
-		
-		initialize(drawPanel);
-		
-		moveIt();
     }
 
-	private void moveIt() {
-		while (true) {
-		
-			try {
-				Thread.sleep(15);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+    private void go() {
+            
+        DrawPanel drawPanel;
+    
+        frame = new JFrame("Unlimited objects");
 
-			frame.repaint();
-		}
-	}
-	
-	public void initialize(Component c) {
-	    for (int i = 0; i < 16; i++) {
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        drawPanel = new DrawPanel();
+
+        frame.getContentPane().add(drawPanel);
+
+        frame.setResizable(false);
+        frame.setSize(600, 600);
+        frame.setLocationByPlatform(true);
+        frame.setVisible(true);
+        
+        initialize(drawPanel);
+        
+        moveIt();
+    }
+
+    private void moveIt() {
+        while (true) {
+        
+            try {
+                Thread.sleep(15);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            frame.repaint();
+        }
+    }
+    
+    public void initialize(Component c) {
+        for (int i = 0; i < 16; i++) {
             drawArea[i] = c.createImage(600,600);
         }
 
@@ -92,30 +92,30 @@ public class Unlimited {
                 e.printStackTrace();
             }
         }
-	}
-	class DrawPanel extends JPanel  {
+    }
+    class DrawPanel extends JPanel  {
 
-		private static final long serialVersionUID = 1L;
-	        
-		public void paintComponent(Graphics g) {
-			    
-			imgX = (int)(Math.cos(angle) * r1 + 300 - img.getWidth() / 2);
-		    imgY = (int)(Math.sin(angle) * r1 + 300 - img.getHeight() / 2);
+        private static final long serialVersionUID = 1L;
+            
+        public void paintComponent(Graphics g) {
+                
+            imgX = (int)(Math.cos(angle) * r1 + 300 - img.getWidth() / 2);
+            imgY = (int)(Math.sin(angle) * r1 + 300 - img.getHeight() / 2);
 
-		    bufferGraphics.clearRect(0,0,600,600);
-		    drawArea[counter].getGraphics().drawImage(img, imgX, imgY, img.getWidth(), img.getHeight(), null);
+            bufferGraphics.clearRect(0,0,600,600);
+            drawArea[counter].getGraphics().drawImage(img, imgX, imgY, img.getWidth(), img.getHeight(), null);
 
-		    bufferGraphics.drawImage(drawArea[counter],0,0,600,600,null);
-		    g.drawImage(offscreen,0,0,this); 
+            bufferGraphics.drawImage(drawArea[counter],0,0,600,600,null);
+            g.drawImage(offscreen,0,0,this); 
 
-		    counter++;
-		    if (counter == 16) counter = 0;
+            counter++;
+            if (counter == 16) counter = 0;
 
-		    r1+=0.075;
+            r1+=0.075;
 
-		    angle+=Math.PI / 180.0;
-		}
+            angle+=Math.PI / 180.0;
+        }
 
-	}
+    }
 
 }
