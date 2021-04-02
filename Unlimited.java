@@ -16,6 +16,8 @@ public class Unlimited {
      */
     private static final long serialVersionUID = 1L;
     
+    boolean ok = false;
+
     int imgX;
     int imgY;
 
@@ -42,7 +44,7 @@ public class Unlimited {
     }
 
     private void go() {
-            
+
         DrawPanel drawPanel;
     
         frame = new JFrame("Unlimited objects");
@@ -51,7 +53,7 @@ public class Unlimited {
 
         drawPanel = new DrawPanel();
 
-        frame.getContentPane().add(drawPanel);
+        frame.getContentPane().add(drawPanel);      
 
         frame.setResizable(false);
         frame.setSize(600, 600);
@@ -59,30 +61,25 @@ public class Unlimited {
         frame.setVisible(true);
         
         initialize(drawPanel);
-        
+
         moveIt();
     }
 
     private void moveIt() {
+
         while (true) {
-        
+
             try {
                 Thread.sleep(15);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            frame.repaint();
+            if (ok) frame.repaint();
         }
     }
     
     public void initialize(Component c) {
-        for (int i = 0; i < 16; i++) {
-            drawArea[i] = c.createImage(600,600);
-        }
-
-        offscreen = c.createImage(600,600);
-        bufferGraphics = offscreen.getGraphics();
 
         if (img == null) {
             try {
@@ -92,29 +89,43 @@ public class Unlimited {
                 e.printStackTrace();
             }
         }
+
+        for (int i = 0; i < 16; i++) {
+            drawArea[i] = c.createImage(600,600);
+        }
+
+        offscreen = c.createImage(600,600);
+        bufferGraphics = offscreen.getGraphics();
+
+        ok = true;
     }
+
     class DrawPanel extends JPanel  {
 
         private static final long serialVersionUID = 1L;
-            
+
         public void paintComponent(Graphics g) {
-                
-            imgX = (int)(Math.cos(angle) * r1 + 300 - img.getWidth() / 2);
-            imgY = (int)(Math.sin(angle) * r1 + 300 - img.getHeight() / 2);
 
-            bufferGraphics.clearRect(0,0,600,600);
-            drawArea[counter].getGraphics().drawImage(img, imgX, imgY, img.getWidth(), img.getHeight(), null);
+            if (ok) {
 
-            bufferGraphics.drawImage(drawArea[counter],0,0,600,600,null);
-            g.drawImage(offscreen,0,0,this); 
+                imgX = (int)(Math.cos(angle) * r1 + 300 - img.getWidth() / 2);
+                imgY = (int)(Math.sin(angle) * r1 + 300 - img.getHeight() / 2);
 
-            counter++;
-            if (counter == 16) counter = 0;
+                bufferGraphics.clearRect(0,0,600,600);
+                drawArea[counter].getGraphics().drawImage(img, imgX, imgY, img.getWidth(), img.getHeight(), null);
 
-            r1+=0.075;
+                bufferGraphics.drawImage(drawArea[counter],0,0,600,600,null);
+                g.drawImage(offscreen,0,0,this); 
 
-            angle+=Math.PI / 180.0;
+                counter++;
+                if (counter == 16) counter = 0;
+
+                r1+=0.075;
+
+                angle+=Math.PI / 180.0;
+            }
         }
+        
 
     }
 
